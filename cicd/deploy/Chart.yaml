@@ -1,0 +1,8 @@
+apiVersion: v2
+name: protocol-union
+version: 0.1.0
+dependencies:
+- name: rarible-helm-chart
+  alias: protocol-node-smart-proxy
+  repository: file://../resources/helm/rarible
+  version: 0.1.0

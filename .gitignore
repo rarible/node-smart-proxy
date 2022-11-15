@@ -1,0 +1,8 @@
+target
+.idea
+*.iml
+.flattened-pom.xml
+cicd/**/Chart.lock
+cicd/**/charts
+cicd/**/resources
+local.properties
