@@ -1,0 +1,19 @@
+protocol-union-api:
+  image:
+    repository: node-smart-proxy
+  replicas: 2
+  environments:
+    APPLICATION_ENVIRONMENT: '{{ include "app.env" $ }}'
+    CONSUL_ROOT_PATH: '{{ include "app.env" $ }}/protocol/node-smart-proxy'
+    SPRING_PROFILES_ACTIVE: 'consul,{{ include "app.env" $ }}'
+    SERVICE_PREFIX: '{{ include "app.env" $ }}-union'
+  resources:
+    jvm:
+      xmx_megabytes: 384
+      max_direct_memory_megabytes: 128
+  service:
+    enabled: true
+  updateConfig:
+    order: start-first
+  podAnnotations:
+    fluentbit.io/parser_stdout: logfmt
