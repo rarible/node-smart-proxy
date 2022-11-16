@@ -11,18 +11,17 @@ import reactor.core.publisher.Mono
 
 @Component
 class NodeRequestForwardFilter(
-    private val configNodeEndpointProvider: ConfigNodeEndpointProvider
+    private val configNodeEndpointProvider: ConfigNodeEndpointProvider,
 ) : GlobalFilter {
 
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
-        val appInfo = AppInfoParser
-            .extractApp("/ethereum/nft")
+        val appInfo = AppInfoParser.extractApp(exchange.request.path.pathWithinApplication().value())
             ?: throw IllegalStateException("Can't get app info for request")
+
+        kotlin.run {  }
 
         val endpoints = configNodeEndpointProvider.getMainBlockchainNode(appInfo.blockchain, appInfo.app)
         if (endpoints != null) {
-            val attributes = exchange.attributes
-            println(attributes)
             exchange.attributes[GATEWAY_REQUEST_URL_ATTR] = endpoints.http
             return chain.filter(exchange)
         } else {

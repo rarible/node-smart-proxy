@@ -21,18 +21,3 @@ spring:
         pool:
           max-life-time: 800s
           max-idle-time: 90s
-
-
-
-filters:
-  - RewritePath=/service(?<segment>/?.*), $\{segment}
-  - name: Logging
-    args:
-      baseMessage: My Custom Message
-      preLogger: true
-      postLogger: true
-
-rarible:
-  core:
-    client:
-      k8s: true

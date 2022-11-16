@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import java.net.URI
 
+@Component
 class ProtocolRouteLocator(
     private val locatorBuilder: RouteLocatorBuilder,
 ) : RouteLocator {
@@ -20,15 +21,9 @@ class ProtocolRouteLocator(
     }.routes
 
     private fun RouteLocatorDsl.rewritePath() {
-        route("") {
+        route("node-proxy-rewrite-filter") {
             path("/{blockchain}/{app}").and(method(HttpMethod.POST))
-            filters {
-                rewritePath(
-                    "/*",
-                    "/"
-                )
-            }
-            uri(URI.create("http://google.com"))
+            uri(URI.create("http://localhost"))
         }
     }
 }
