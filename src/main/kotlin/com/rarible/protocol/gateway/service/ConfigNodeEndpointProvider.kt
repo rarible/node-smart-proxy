@@ -1,6 +1,6 @@
 package com.rarible.protocol.gateway.service
 
-import com.rarible.protocol.gateway.configuration.NodeEndpoint
+import com.rarible.protocol.gateway.configuration.Node
 import com.rarible.protocol.gateway.configuration.NodeSmartProxyProperties
 import com.rarible.protocol.gateway.model.App
 import com.rarible.protocol.gateway.model.Blockchain
@@ -12,37 +12,37 @@ import org.springframework.stereotype.Component
 class ConfigNodeEndpointProvider(
     properties: NodeSmartProxyProperties
 ) {
-    private val mainNodes: Map<Blockchain, Map<App, NodeEndpoint>>
-    private val reserveNodes: Map<Blockchain, Map<App, NodeEndpoint>>
+    private val mainNodes: Map<Blockchain, Map<App, Node>>
+    private val reserveNodes: Map<Blockchain, Map<App, Node>>
 
     init {
-        val mainNodeConfig = mutableMapOf<Blockchain, Map<App, NodeEndpoint>>()
-        val reserveNodeConfig = mutableMapOf<Blockchain, Map<App, NodeEndpoint>>()
+        val mainNodeConfig = mutableMapOf<Blockchain, Map<App, Node>>()
+        val reserveNodeConfig = mutableMapOf<Blockchain, Map<App, Node>>()
 
         properties.blockchainNode.forEach { (blockchain, blockchainConfig) ->
             val global = blockchainConfig.global
             val globalMain = global?.getMainIfEnabled()
             val globalReserve = global?.getReserveIfEnabled()
 
-            val appMainNodeConfig = mutableMapOf<App, NodeEndpoint>()
-            val appReserveNodeConfig = mutableMapOf<App, NodeEndpoint>()
+            val appMainNodeConfig = mutableMapOf<App, Node>()
+            val appReserveNodeConfig = mutableMapOf<App, Node>()
 
             blockchainConfig.apps.forEach { app ->
-                val appMain = app.endpoints?.getMainIfEnabled() ?: globalMain
-                val appReserve = app.endpoints?.getReserveIfEnabled() ?: globalReserve
+                val appMain = app.getMainIfEnabled() ?: globalMain
+                val appReserve = app.getReserveIfEnabled() ?: globalReserve
 
                 if (appMain != null) {
-                    appMainNodeConfig[app.name] = appMain.endpoint
+                    appMainNodeConfig[app.name] = appMain
                     logger.info(
                         "Detected main node: blockchain={}, app={}, endpoints={}",
-                        blockchain, app.name, appMain.endpoint
+                        blockchain, app.name, appMain
                     )
                 }
                 if (appReserve != null) {
-                    appReserveNodeConfig[app.name] = appReserve.endpoint
+                    appReserveNodeConfig[app.name] = appReserve
                     logger.info(
                         "Detected reserve node: blockchain={}, app={}, endpoints={}",
-                        blockchain, app.name, appReserve.endpoint
+                        blockchain, app.name, appReserve
                     )
                 }
             }
@@ -57,14 +57,14 @@ class ConfigNodeEndpointProvider(
     fun getMainBlockchainNode(
         blockchain: Blockchain,
         app: App,
-    ): NodeEndpoint? {
+    ): Node? {
         return mainNodes[blockchain]?.get(app)
     }
 
     fun getRevertBlockchainNode(
         blockchain: Blockchain,
         app: App,
-    ): NodeEndpoint? {
+    ): Node? {
         return reserveNodes[blockchain]?.get(app)
     }
 
