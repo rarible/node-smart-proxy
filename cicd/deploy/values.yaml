@@ -1,4 +1,4 @@
-protocol-union-api:
+protocol-node-smart-proxy:
   image:
     repository: node-smart-proxy
   replicas: 2
