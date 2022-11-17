@@ -22,7 +22,7 @@ class ProtocolRouteLocator(
 
     private fun RouteLocatorDsl.rewritePath() {
         route("node-proxy-rewrite-filter") {
-            path(APP_NODE_PATH_PATTERN).and(method(HttpMethod.POST))
+            path(APP_NODE_PATH_PATTERN).and(method(HttpMethod.POST, HttpMethod.GET))
             /** Dummy uri for this filter, the real uri will be set in other filter
              * @see com.rarible.protocol.gateway.filter.NodeRequestForwardFilter
              */
