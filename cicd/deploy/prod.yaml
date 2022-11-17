@@ -1,4 +1,4 @@
-node-smart-proxy:
+protocol-node-smart-proxy:
   replicas: 2
   resources:
     jvm:

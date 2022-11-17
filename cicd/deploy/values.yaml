@@ -1,6 +1,6 @@
 node-smart-proxy:
   image:
-    repository: node-smart-proxy
+    repository: protocol-node-smart-proxy
   replicas: 2
   environments:
     APPLICATION_ENVIRONMENT: '{{ include "app.env" $ }}'
