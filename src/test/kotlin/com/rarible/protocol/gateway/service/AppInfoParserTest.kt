@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.http.server.PathContainer
 import java.util.stream.Stream
 
 internal class AppInfoParserTest {
@@ -18,14 +19,14 @@ internal class AppInfoParserTest {
     @ParameterizedTest
     @MethodSource("paths")
     fun `parse - ok`(path: String) {
-        val info = AppInfoParser.extractApp(path)
+        val info = AppInfoParser.extractApp(PathContainer.parsePath(path))
         assertThat(info?.blockchain).isEqualTo("ethereum")
         assertThat(info?.app).isEqualTo("nft")
     }
 
     @Test
     fun `parse - fail`() {
-        val info = AppInfoParser.extractApp("/ethereum")
+        val info = AppInfoParser.extractApp(PathContainer.parsePath("/ethereum"))
         assertThat(info).isNull()
     }
 }

@@ -16,7 +16,7 @@ class NodeRequestForwardFilter(
 
     override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
         val request = exchange.request
-        val appInfo = AppInfoParser.extractApp(request.path.pathWithinApplication().value())
+        val appInfo = AppInfoParser.extractApp(request.path)
             ?: throw IllegalStateException("Can't get app info for request")
 
         val endpoint = nodeEndpointProvider
