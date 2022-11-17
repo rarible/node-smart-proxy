@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component
 class ConfigNodeEndpointProvider(
     properties: NodeSmartProxyProperties
 ) {
+
+    //TODO AY I think its better to create separate object types (like wrappers) instead of using raw maps
+    //It is also easier to write tests for them
     private val mainNodes: Map<Blockchain, Map<App, Node>>
     private val reserveNodes: Map<Blockchain, Map<App, Node>>
 

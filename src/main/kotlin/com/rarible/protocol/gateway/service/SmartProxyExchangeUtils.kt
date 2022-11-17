@@ -5,6 +5,7 @@ object SmartProxyExchangeUtils {
     val BLOCKCHAIN_ATTRIBUTE = qualify("blockchain")
     val APP_ATTRIBUTE = qualify("app")
 
+    // TODO AY is it really intentional naming with full class name?
     private fun qualify(attr: String): String {
         return SmartProxyExchangeUtils::class.java.name + "." + attr
     }

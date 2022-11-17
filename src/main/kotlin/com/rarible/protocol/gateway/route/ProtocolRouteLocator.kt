@@ -1,6 +1,5 @@
 package com.rarible.protocol.gateway.route
 
-import com.rarible.protocol.gateway.model.FilterType
 import com.rarible.protocol.gateway.service.APP_NODE_PATH_PATTERN
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
