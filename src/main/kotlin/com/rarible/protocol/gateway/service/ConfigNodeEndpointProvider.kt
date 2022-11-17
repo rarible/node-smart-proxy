@@ -1,9 +1,9 @@
 package com.rarible.protocol.gateway.service
 
-import com.rarible.protocol.gateway.configuration.Node
 import com.rarible.protocol.gateway.configuration.NodeSmartProxyProperties
 import com.rarible.protocol.gateway.model.App
 import com.rarible.protocol.gateway.model.Blockchain
+import com.rarible.protocol.gateway.model.Node
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
