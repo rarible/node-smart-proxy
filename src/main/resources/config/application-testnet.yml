@@ -1,1 +1,22 @@
-
+node-smart-proxy:
+  blockchain-node:
+    ethereum:
+      global:
+        main:
+          enabled: true
+          http: http://goerli-node.ethereum-node:8545
+          websocket: ws://goerli-node.ethereum-node:8546
+      apps:
+        - name: nft
+        - name: erc20
+        - name: order
+    polygon:
+      global:
+        main:
+          enabled: true
+          http: http://mumbai-node.polygon-node:8545
+          websocket: ws://mumbai-node.polygon-node:8546
+      apps:
+        - name: nft
+        - name: erc20
+        - name: order
