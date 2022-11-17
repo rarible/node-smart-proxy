@@ -2,6 +2,8 @@ package com.rarible.protocol.gateway.model
 
 sealed class NodeEndpoints {
     abstract val main: MainNode?
+
+    //TODO AY Not really sure, but can be here N reserved nodes?
     abstract val reserve: ReserveNode?
 
     fun getMainIfEnabled(): Node? {

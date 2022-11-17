@@ -21,6 +21,7 @@ class NodeRequestForwardFilter(
             ?: throw IllegalStateException("Can't get app info for request")
 
         val node = nodeEndpointProvider.getNode(appInfo.blockchain, appInfo.app)
+        //TODO AY is there a dedicated URL without paths/query params etc?
         val endpoint = node?.getEndpointBySchema(request.uri.scheme)
 
         if (endpoint != null) {

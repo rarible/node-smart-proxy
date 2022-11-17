@@ -1,6 +1,5 @@
 package com.rarible.protocol.gateway.model
 
-import java.lang.IllegalStateException
 import java.net.URI
 
 sealed class Node(val type: NodeType) {
@@ -8,6 +7,7 @@ sealed class Node(val type: NodeType) {
     abstract val http: URI
     abstract val websocket: URI
 
+    // TODO AY - not null
     fun getEndpointBySchema(schema: String): URI? {
         return when (schema) {
             "http", "https" -> http
