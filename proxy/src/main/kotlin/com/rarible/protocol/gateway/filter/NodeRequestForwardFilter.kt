@@ -4,6 +4,8 @@ import com.rarible.protocol.gateway.model.FilterType
 import com.rarible.protocol.gateway.service.AppInfoParser
 import com.rarible.protocol.gateway.service.NodeEndpointProvider
 import com.rarible.protocol.gateway.service.SmartProxyExchangeUtils
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR
 import org.springframework.stereotype.Component
@@ -24,6 +26,8 @@ class NodeRequestForwardFilter(
         val endpoint = node?.getEndpointBySchema(request.uri.scheme)
 
         if (endpoint != null) {
+            logger.info("Choose endpoint=${endpoint}")
+
             exchange.attributes[SmartProxyExchangeUtils.APP_ATTRIBUTE] = appInfo.app
             exchange.attributes[SmartProxyExchangeUtils.BLOCKCHAIN_ATTRIBUTE] = appInfo.blockchain
             exchange.attributes[SmartProxyExchangeUtils.NODE_TYPE_ATTRIBUTE] = node.type
@@ -32,5 +36,9 @@ class NodeRequestForwardFilter(
         } else {
             throw IllegalStateException("All nodes for ${appInfo.blockchain}/${appInfo.app} are disabled")
         }
+    }
+
+    private companion object {
+        val logger: Logger = LoggerFactory.getLogger(NodeRequestForwardFilter::class.java)
     }
 }
