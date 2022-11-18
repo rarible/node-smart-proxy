@@ -12,7 +12,9 @@ internal class AppInfoParserTest {
         @JvmStatic
         fun paths(): Stream<String> = Stream.of(
             "/ethereum/nft",
-            "/ethereum/nft/"
+            "/ethereum/nft/",
+            "/ethereum/nft/ws",
+            "/ethereum/nft/ws/",
         )
     }
 

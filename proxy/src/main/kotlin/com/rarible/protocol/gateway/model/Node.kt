@@ -1,5 +1,6 @@
 package com.rarible.protocol.gateway.model
 
+import org.springframework.http.HttpMethod
 import java.net.URI
 
 sealed class Node(val type: NodeType) {
@@ -7,10 +8,10 @@ sealed class Node(val type: NodeType) {
     abstract val http: URI
     abstract val websocket: URI
 
-    fun getEndpointBySchema(schema: String): URI? {
-        return when (schema) {
-            "http", "https" -> http
-            "ws", "wss" -> websocket
+    fun getEndpointByMethod(httpMethod: HttpMethod?): URI? {
+        return when (httpMethod) {
+            HttpMethod.POST -> http
+            HttpMethod.GET -> websocket
             else -> null
         }
     }

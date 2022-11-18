@@ -23,11 +23,10 @@ class NodeRequestForwardFilter(
             ?: throw IllegalStateException("Can't get app info for request")
 
         val node = nodeEndpointProvider.getNode(appInfo.blockchain, appInfo.app)
-        val endpoint = node?.getEndpointBySchema(request.uri.scheme)
+        val endpoint = node?.getEndpointByMethod(request.method)
 
         if (endpoint != null) {
-            logger.info("Choose endpoint=${endpoint}")
-
+            logger.info("Connect to $endpoint")
             exchange.attributes[SmartProxyExchangeUtils.APP_ATTRIBUTE] = appInfo.app
             exchange.attributes[SmartProxyExchangeUtils.BLOCKCHAIN_ATTRIBUTE] = appInfo.blockchain
             exchange.attributes[SmartProxyExchangeUtils.NODE_TYPE_ATTRIBUTE] = node.type
