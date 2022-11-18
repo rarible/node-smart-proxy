@@ -26,7 +26,7 @@ class NodeMetrics(
     }
 
     private fun tagApp(app: App): Tag {
-        return tag("app", app.lowercase())
+        return tag("app_name", app.lowercase())
     }
 
     private fun tag(type: NodeType): Tag {
