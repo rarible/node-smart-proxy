@@ -7,12 +7,11 @@ sealed class Node(val type: NodeType) {
     abstract val http: URI
     abstract val websocket: URI
 
-    // TODO AY - not null
     fun getEndpointBySchema(schema: String): URI? {
         return when (schema) {
             "http", "https" -> http
             "ws", "wss" -> websocket
-            else -> throw IllegalStateException("Can't determine endpoint for schema $schema")
+            else -> null
         }
     }
 }
