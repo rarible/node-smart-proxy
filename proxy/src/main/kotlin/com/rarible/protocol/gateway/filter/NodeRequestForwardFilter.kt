@@ -26,7 +26,6 @@ class NodeRequestForwardFilter(
         val endpoint = node?.getEndpointByMethod(request.method)
 
         if (endpoint != null) {
-            logger.info("Connect to $endpoint")
             exchange.attributes[SmartProxyExchangeUtils.APP_ATTRIBUTE] = appInfo.app
             exchange.attributes[SmartProxyExchangeUtils.BLOCKCHAIN_ATTRIBUTE] = appInfo.blockchain
             exchange.attributes[SmartProxyExchangeUtils.NODE_TYPE_ATTRIBUTE] = node.type
