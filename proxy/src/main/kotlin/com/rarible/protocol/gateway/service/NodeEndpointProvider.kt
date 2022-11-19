@@ -14,4 +14,8 @@ class NodeEndpointProvider(
         val reserve = configNodeEndpointProvider.getRevertBlockchainNode(blockchain, app)
         return main ?: reserve
     }
+
+    fun getNextReserve(blockchain: Blockchain, app: App): Node? {
+        return configNodeEndpointProvider.getRevertBlockchainNode(blockchain, app)
+    }
 }
