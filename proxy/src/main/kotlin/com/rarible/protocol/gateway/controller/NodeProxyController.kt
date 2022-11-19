@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
 class NodeProxyController(
     private val nodeRequestRouterService: NodeRequestRouterService
 ) {
-
     @PostMapping(
         value = ["/{blockchain}/{app}/http"]
     )
@@ -28,12 +26,11 @@ class NodeProxyController(
         @PathVariable blockchain: Blockchain,
         @PathVariable app: App,
         @RequestHeader headers: HttpHeaders,
-        @RequestBody body: Flux<ByteArray>,
-    ): Mono<ResponseEntity<Flux<ByteArray>>> = mono {
+        @RequestBody body: ByteArray,
+    ): Mono<ResponseEntity<ByteArray>> = mono {
         val request = NodeProxyRequest(headers, body)
         val response = nodeRequestRouterService.route(blockchain, app, request)
             ?: throw AppNotFoundApiException(blockchain, app)
-
         ResponseEntity
             .status(response.response.status)
             .headers(response.response.headers)

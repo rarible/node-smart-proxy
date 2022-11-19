@@ -5,7 +5,6 @@ import com.rarible.protocol.gateway.model.NodeProxyResponse
 import kotlinx.coroutines.reactive.awaitSingle
 import org.apache.http.HttpHeaders
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Flux
 import java.net.URI
 
 @Component
@@ -18,7 +17,7 @@ class NodeProxyClient(clientBuilder: NodeHttpClientBuilder) {
     ): NodeProxyResponse {
         val spec = webClient.post()
             .uri(endpoint)
-            .body(request.body, ByteArray::class.java)
+            .bodyValue(request.body)
             .headers {
                 request.headers
                     .forEach { key, value ->
@@ -29,12 +28,11 @@ class NodeProxyClient(clientBuilder: NodeHttpClientBuilder) {
             }
             .retrieve()
 
-        val response = spec.toEntityFlux(ByteArray::class.java).awaitSingle()
-
+        val response = spec.toEntity(ByteArray::class.java).awaitSingle()
         return NodeProxyResponse(
             response.statusCode,
             response.headers,
-            response.body ?: Flux.just(EMPTY_BYTE_ARRAY)
+            response.body ?: EMPTY_BYTE_ARRAY
         )
     }
 
