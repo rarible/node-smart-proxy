@@ -10,6 +10,7 @@ node-smart-proxy:
         - name: nft
         - name: erc20
         - name: order
+          failback-enabled: true
     polygon:
       global:
         main:
@@ -20,3 +21,4 @@ node-smart-proxy:
         - name: nft
         - name: erc20
         - name: order
+          failback-enabled: true
