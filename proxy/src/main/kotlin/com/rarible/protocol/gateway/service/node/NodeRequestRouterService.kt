@@ -4,7 +4,7 @@ import com.rarible.protocol.gateway.model.App
 import com.rarible.protocol.gateway.model.Blockchain
 import com.rarible.protocol.gateway.model.NodeProxyRequest
 import com.rarible.protocol.gateway.model.NodeResponse
-import com.rarible.protocol.gateway.service.failback.FailbackPredicate
+import com.rarible.protocol.gateway.service.failback.CompositeFailbackPredicate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class NodeRequestRouterService(
     private val nodeRequestRouter: NodeRequestRouter,
-    private val failbackPredicates: List<FailbackPredicate>
+    private val failbackPredicate: CompositeFailbackPredicate
 ) {
     suspend fun route(
         blockchain: Blockchain,
@@ -22,7 +22,7 @@ class NodeRequestRouterService(
         val response = nodeRequestRouter.route(blockchain, app, request)
         val reserveResponse = if (
             response != null &&
-            failbackPredicates.any { it.needFailback(blockchain, app, response) }
+            failbackPredicate.needFailback(blockchain, app, response)
         ) {
             logger.info("Retry request to reserve node: $blockchain/$app")
             nodeRequestRouter.routeToReserve(blockchain, app, request)
