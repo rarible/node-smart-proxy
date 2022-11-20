@@ -23,8 +23,7 @@ class GlobalNodeEndpoints(
 ) : NodeEndpoints()
 
 class AppNodeEndpoints(
-    val name: App,
-    val failbackEnabled: Boolean = false,
+    val failbackEnabled: Boolean,
     override val main: MainNode? = null,
     override val reserve: ReserveNode? = null
 ) : NodeEndpoints()

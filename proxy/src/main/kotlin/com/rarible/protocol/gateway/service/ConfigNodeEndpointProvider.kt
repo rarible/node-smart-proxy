@@ -2,6 +2,7 @@ package com.rarible.protocol.gateway.service
 
 import com.rarible.protocol.gateway.configuration.NodeSmartProxyProperties
 import com.rarible.protocol.gateway.model.App
+import com.rarible.protocol.gateway.model.AppNodeEndpoints
 import com.rarible.protocol.gateway.model.Blockchain
 import com.rarible.protocol.gateway.model.Node
 import org.slf4j.Logger
@@ -34,24 +35,26 @@ class ConfigNodeEndpointProvider(
             val appFailbackConfig = mutableMapOf<App, Boolean>()
 
             blockchainConfig.apps.forEach { app ->
-                val appMain = app.getMainIfEnabled() ?: globalMain
-                val appReserve = app.getReserveIfEnabled() ?: globalReserve
+                val name = app.key
+                val config = app.value
+                val appMain = config.getMainIfEnabled() ?: globalMain
+                val appReserve = config.getReserveIfEnabled() ?: globalReserve
 
                 if (appMain != null) {
-                    appMainNodeConfig[app.name] = appMain
+                    appMainNodeConfig[name] = appMain
                     logger.info(
                         "Detected main node: {}/{}, {}",
-                        blockchain, app.name, appMain
+                        blockchain, name, appMain
                     )
                 }
                 if (appReserve != null) {
-                    appReserveNodeConfig[app.name] = appReserve
+                    appReserveNodeConfig[name] = appReserve
                     logger.info(
                         "Detected reserve node: {}/{}, {}",
-                        blockchain, app.name, appReserve
+                        blockchain, name, appReserve
                     )
                 }
-                appFailbackConfig[app.name] = app.failbackEnabled
+                appFailbackConfig[name] = config.failbackEnabled
             }
             mainNodeConfig[blockchain] = appMainNodeConfig
             reserveNodeConfig[blockchain] = appReserveNodeConfig

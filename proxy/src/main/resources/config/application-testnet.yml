@@ -7,9 +7,11 @@ node-smart-proxy:
           http: http://goerli-node.ethereum-node:8545
           websocket: ws://goerli-node.ethereum-node:8546
       apps:
-        - name: nft
-        - name: erc20
-        - name: order
+        nft:
+          failback-enabled: false
+        erc20:
+          failback-enabled: false
+        order:
           failback-enabled: true
     polygon:
       global:
@@ -18,7 +20,9 @@ node-smart-proxy:
           http: http://mumbai-node.polygon-node:8545
           websocket: ws://mumbai-node.polygon-node:8546
       apps:
-        - name: nft
-        - name: erc20
-        - name: order
+        nft:
+          failback-enabled: false
+        erc20:
+          failback-enabled: false
+        order:
           failback-enabled: true
