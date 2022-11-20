@@ -1,4 +1,4 @@
-node-smart-proxy:
+proxy:
   blockchain-node:
     ethereum:
       global:
