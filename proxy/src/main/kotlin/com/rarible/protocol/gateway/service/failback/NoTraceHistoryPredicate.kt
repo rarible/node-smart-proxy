@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.rarible.protocol.gateway.model.App
 import com.rarible.protocol.gateway.model.Blockchain
+import com.rarible.protocol.gateway.model.NodeProxyResponse
 import com.rarible.protocol.gateway.model.NodeResponse
 import com.rarible.protocol.gateway.model.NodeType
+import com.rarible.protocol.gateway.service.decoder.NodeResponseDecoder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class NoTraceHistoryPredicate(
-
+    private val nodeResponseDecoder: NodeResponseDecoder
 ) : FailbackPredicate {
     val logger: Logger = LoggerFactory.getLogger(NoTraceHistoryPredicate::class.java)
 
@@ -29,16 +31,18 @@ class NoTraceHistoryPredicate(
             nodeResponse.response.status == HttpStatus.OK &&
             nodeResponse.response.body.isNotEmpty()
         ) {
-            val error = readPossibleError(nodeResponse.response.body)?.error
-            error?.code == TARGET_ERROR_CODE && error.message == TARGET_ERROR_MESSAGE
+            val error = readPossibleError(nodeResponse.response)?.error
+            error?.code == TARGET_ERROR_CODE && error.message?.startsWith(TARGET_ERROR_MESSAGE) == true
         } else false
     }
 
-    private fun readPossibleError(body: ByteArray): TraceHistoryErrorResponse? {
+    private fun readPossibleError(response: NodeProxyResponse): TraceHistoryErrorResponse? {
         return try {
-            MAPPER.readValue(body, TraceHistoryErrorResponse::class.java)
+            nodeResponseDecoder.decode(response).use {
+                MAPPER.readValue(it, TraceHistoryErrorResponse::class.java)
+            }
         } catch (ex: Throwable) {
-            logger.error("Can't deserialise node body: ${body.decodeToString()}", ex)
+            logger.error("Can't deserialize node body: headers=${response.headers}, body=${response.body}", ex)
             null
         }
     }

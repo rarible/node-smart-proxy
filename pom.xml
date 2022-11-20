@@ -28,6 +28,7 @@
         <spring-cloud-gateway.version>3.1.4</spring-cloud-gateway.version>
         <rarible.core.version>2.5.0</rarible.core.version>
         <dev-jna.version>5.7.0</dev-jna.version>
+        <brotli-dex.version>0.1.2</brotli-dex.version>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +45,11 @@
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
                 <version>${dev-jna.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.brotli</groupId>
+                <artifactId>dec</artifactId>
+                <version>${brotli-dex.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

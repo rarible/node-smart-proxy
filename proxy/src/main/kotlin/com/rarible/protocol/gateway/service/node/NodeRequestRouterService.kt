@@ -5,6 +5,8 @@ import com.rarible.protocol.gateway.model.Blockchain
 import com.rarible.protocol.gateway.model.NodeProxyRequest
 import com.rarible.protocol.gateway.model.NodeResponse
 import com.rarible.protocol.gateway.service.failback.FailbackPredicate
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,8 +24,13 @@ class NodeRequestRouterService(
             response != null &&
             failbackPredicates.any { it.needFailback(blockchain, app, response) }
         ) {
+            logger.info("Retry request to reserve node: $blockchain/$app")
             nodeRequestRouter.routeToReserve(blockchain, app, request)
         } else null
         return reserveResponse ?: response
+    }
+
+    private companion object {
+        val logger: Logger = LoggerFactory.getLogger(NodeRequestRouterService::class.java)
     }
 }
