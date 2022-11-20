@@ -1,6 +1,6 @@
 package com.rarible.protocol.gateway.route
 
-import com.rarible.protocol.gateway.service.APP_NODE_HTTP_PATH_PATTERN
+import com.rarible.protocol.gateway.service.APP_NODE_PREFIX_PATH_PATTERN
 import com.rarible.protocol.gateway.service.APP_NODE_WEBSOCKET_PATH_PATTERN
 import org.springframework.cloud.gateway.route.Route
 import org.springframework.cloud.gateway.route.RouteLocator
@@ -18,7 +18,7 @@ class ProtocolRouteLocator(
 ) : RouteLocator {
 
     override fun getRoutes(): Flux<Route> = locatorBuilder.routes {
-        path(APP_NODE_HTTP_PATH_PATTERN, HttpMethod.POST,"node-proxy-http", )
+        path(APP_NODE_PREFIX_PATH_PATTERN, HttpMethod.POST,"node-proxy-http", )
         path(APP_NODE_WEBSOCKET_PATH_PATTERN, HttpMethod.GET,"node-proxy-websocket")
     }.routes
 

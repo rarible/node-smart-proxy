@@ -7,8 +7,9 @@ import org.springframework.web.util.pattern.PathPatternParser
 
 internal const val BLOCKCHAIN_VAR = "blockchain"
 internal const val APP_VAR = "app"
-const val APP_NODE_HTTP_PATH_PATTERN = "/{$BLOCKCHAIN_VAR}/{$APP_VAR}"
-const val APP_NODE_WEBSOCKET_PATH_PATTERN = "${APP_NODE_HTTP_PATH_PATTERN}/ws"
+const val APP_NODE_PREFIX_PATH_PATTERN = "/{$BLOCKCHAIN_VAR}/{$APP_VAR}"
+const val APP_NODE_HTTP_PATH_PATTERN = "/{$BLOCKCHAIN_VAR}/{$APP_VAR}/http"
+const val APP_NODE_WEBSOCKET_PATH_PATTERN = "${APP_NODE_PREFIX_PATH_PATTERN}/ws"
 
 object AppInfoParser {
     fun extractApp(path: PathContainer): AppConnectionInfo? {
@@ -24,7 +25,7 @@ object AppInfoParser {
     }
 
     private fun parseHttp(path: PathContainer): PathPattern.PathMatchInfo? {
-        return parse(APP_NODE_HTTP_PATH_PATTERN, path)
+        return parse(APP_NODE_PREFIX_PATH_PATTERN, path)
     }
 
     private fun parseWs(path: PathContainer): PathPattern.PathMatchInfo? {

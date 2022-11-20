@@ -4,6 +4,7 @@ import com.rarible.protocol.gateway.exceptions.AppNotFoundApiException
 import com.rarible.protocol.gateway.model.App
 import com.rarible.protocol.gateway.model.Blockchain
 import com.rarible.protocol.gateway.model.NodeProxyRequest
+import com.rarible.protocol.gateway.service.APP_NODE_HTTP_PATH_PATTERN
 import com.rarible.protocol.gateway.service.node.NodeRequestRouterService
 import kotlinx.coroutines.reactor.mono
 import org.springframework.http.HttpHeaders
@@ -20,7 +21,7 @@ class NodeProxyController(
     private val nodeRequestRouterService: NodeRequestRouterService
 ) {
     @PostMapping(
-        value = ["/{blockchain}/{app}/http"]
+        value = [APP_NODE_HTTP_PATH_PATTERN]
     )
     fun proxyWithFailback(
         @PathVariable blockchain: Blockchain,
