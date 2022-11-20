@@ -10,6 +10,7 @@ import com.rarible.protocol.gateway.model.NodeProxyResponse
 import com.rarible.protocol.gateway.model.NodeResponse
 import com.rarible.protocol.gateway.model.NodeType
 import com.rarible.protocol.gateway.model.PossibleErrorResponse
+import com.rarible.protocol.gateway.service.ConfigNodeEndpointProvider
 import com.rarible.protocol.gateway.service.decoder.NodeResponseDecoder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -19,7 +20,8 @@ import org.springframework.stereotype.Component
 @Component
 class CompositeFailbackPredicate(
     private val failbackPredicates: List<FailbackPredicate>,
-    private val nodeResponseDecoder: NodeResponseDecoder
+    private val nodeResponseDecoder: NodeResponseDecoder,
+    private val configNodeEndpointProvider: ConfigNodeEndpointProvider
 ) {
     val logger: Logger = LoggerFactory.getLogger(NoTraceHistoryPredicate::class.java)
 
@@ -29,6 +31,7 @@ class CompositeFailbackPredicate(
         nodeResponse: NodeResponse
     ): Boolean {
         return if (
+            configNodeEndpointProvider.isFailbackEnabled(blockchain, app) &&
             nodeResponse.type == NodeType.MAIN &&
             nodeResponse.response.status == HttpStatus.OK &&
             nodeResponse.response.body.isNotEmpty()
@@ -49,10 +52,7 @@ class CompositeFailbackPredicate(
         }
     }
 
-
     private companion object {
-        const val TARGET_ERROR_CODE = -32000L
-        const val TARGET_ERROR_MESSAGE = "required historical state unavailable"
         val MAPPER = ObjectMapper().apply {
             registerKotlinModule()
             configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
