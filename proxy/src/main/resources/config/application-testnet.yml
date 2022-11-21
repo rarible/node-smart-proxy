@@ -6,23 +6,9 @@ proxy:
           enabled: true
           http: http://goerli-node.ethereum-node:8545
           websocket: ws://goerli-node.ethereum-node:8546
-      apps:
-        nft:
-          failback-enabled: false
-        erc20:
-          failback-enabled: false
-        order:
-          failback-enabled: true
     polygon:
       global:
         main:
           enabled: true
           http: http://mumbai-node.polygon-node:8545
           websocket: ws://mumbai-node.polygon-node:8546
-      apps:
-        nft:
-          failback-enabled: false
-        erc20:
-          failback-enabled: false
-        order:
-          failback-enabled: true

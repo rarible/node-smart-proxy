@@ -21,3 +21,22 @@ spring:
         pool:
           max-life-time: 800s
           max-idle-time: 90s
+
+proxy:
+  blockchain-node:
+    ethereum:
+      apps:
+        nft:
+          failback-enabled: false
+        erc20:
+          failback-enabled: false
+        order:
+          failback-enabled: true
+    polygon:
+      apps:
+        nft:
+          failback-enabled: false
+        erc20:
+          failback-enabled: false
+        order:
+          failback-enabled: true

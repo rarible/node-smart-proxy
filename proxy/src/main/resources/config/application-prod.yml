@@ -1,0 +1,15 @@
+proxy:
+  blockchain-node:
+    ethereum:
+      global:
+        main:
+          enabled: true
+          http: mainnet-node.ethereum-node:8545
+          websocket: mainnet-node.ethereum-node:8546
+    polygon:
+      global:
+        main:
+          enabled: true
+          http: mainnet-node.polygon-node:8545
+          websocket: mainnet-node.polygon-node:8546
+
