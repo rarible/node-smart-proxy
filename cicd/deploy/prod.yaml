@@ -3,4 +3,4 @@ protocol-node-smart-proxy:
   resources:
     jvm:
       xmx_megabytes: 1024
-      max_direct_memory_megabytes: 256
+      max_direct_memory_megabytes: 512
