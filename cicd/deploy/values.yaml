@@ -9,8 +9,8 @@ node-smart-proxy:
     SERVICE_PREFIX: '{{ include "app.env" $ }}-union'
   resources:
     jvm:
-      xmx_megabytes: 384
-      max_direct_memory_megabytes: 128
+      xmx_megabytes: 512
+      max_direct_memory_megabytes: 512
   service:
     enabled: true
   updateConfig:
