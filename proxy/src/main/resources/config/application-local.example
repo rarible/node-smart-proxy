@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+proxy:
+  blockchain-node:
+    ethereum:
+      global:
+        main:
+          enabled: true
+          http: https://local-node.example.com
+          websocket: wss://local-node.example.com
+        reserve:
+          enabled: true
+          http: https://paid-node.example.com
+          websocket: wss://paid-node.example.com
+      apps:
+        nft:
+          failback-enabled: false
+        erc20:
+          failback-enabled: false
+        order:
+          failback-enabled: true
+
+logging:
+  logfmt:
+    enabled: false
+  logjson:
+    enabled: false
