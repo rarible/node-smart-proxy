@@ -37,7 +37,7 @@ class NodeHttpClientBuilder {
     }
 
     companion object {
-        val DEFAULT_MAX_BODY_SIZE = DataSize.ofMegabytes(10).toBytes().toInt()
+        val DEFAULT_MAX_BODY_SIZE = DataSize.ofMegabytes(40).toBytes().toInt()
         val DEFAULT_TIMEOUT: Duration = Duration.ofSeconds(30)
     }
 }
