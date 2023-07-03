@@ -1,5 +1,6 @@
 package com.rarible.protocol.gateway.model
 
+import com.rarible.protocol.gateway.service.NodeProviderParser
 import org.springframework.http.HttpMethod
 import java.net.URI
 
@@ -10,7 +11,7 @@ sealed class Node(val type: NodeType) {
     abstract val provider: String?
 
     fun provider(): String {
-        return provider ?: DEFAULT_NODE_PROVIDER
+        return provider ?: NodeProviderParser.parser(http) ?: DEFAULT_NODE_PROVIDER
     }
 
     fun getEndpointByMethod(httpMethod: HttpMethod?): URI? {
