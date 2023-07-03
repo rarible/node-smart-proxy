@@ -44,7 +44,7 @@ class NodeRequestRouter(
     ): NodeResponse? {
         val endpoints = getNode(blockchain, app) ?: return null
         val response = nodeProxyClient.post(endpoints.http, request)
-        nodeMetrics.onNodeProxyRequest(blockchain, app, endpoints.type)
+        nodeMetrics.onNodeProxyRequest(blockchain, app, endpoints.type, endpoints.provider())
         return NodeResponse(endpoints.type, response)
     }
 }

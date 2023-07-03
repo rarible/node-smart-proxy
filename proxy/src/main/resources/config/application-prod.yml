@@ -6,10 +6,12 @@ proxy:
           enabled: true
           http: http://mainnet-node.ethereum-node:8545
           websocket: ws://mainnet-node.ethereum-node:8546
+          provider: rarible
     polygon:
       global:
         main:
           enabled: true
           http: http://mainnet-node.polygon-node:8545
           websocket: ws://mainnet-node.polygon-node:8546
+          provider: rarible
 

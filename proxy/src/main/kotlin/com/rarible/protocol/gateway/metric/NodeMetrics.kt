@@ -15,9 +15,16 @@ class NodeMetrics(
     fun onNodeProxyRequest(
         blockchain: Blockchain,
         app: App,
-        type: NodeType
+        type: NodeType,
+        provider: String,
     ) {
-        increment(BLOCKCHAIN_NODE_PROXY_REQUEST, tagBlockchain(blockchain), tagApp(app), tag(type))
+        increment(
+            BLOCKCHAIN_NODE_PROXY_REQUEST,
+            tagBlockchain(blockchain),
+            tagApp(app),
+            tag(type),
+            tagProvider(provider),
+        )
     }
 
 
@@ -27,6 +34,10 @@ class NodeMetrics(
 
     private fun tagApp(app: App): Tag {
         return tag("app_name", app.lowercase())
+    }
+
+    private fun tagProvider(provider: String): Tag {
+        return tag("node_provider", provider)
     }
 
     private fun tag(type: NodeType): Tag {

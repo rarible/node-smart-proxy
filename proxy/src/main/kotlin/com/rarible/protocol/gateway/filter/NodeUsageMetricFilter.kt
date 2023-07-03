@@ -2,6 +2,7 @@ package com.rarible.protocol.gateway.filter
 
 import com.rarible.protocol.gateway.metric.NodeMetrics
 import com.rarible.protocol.gateway.model.FilterType
+import com.rarible.protocol.gateway.model.Node
 import com.rarible.protocol.gateway.model.NodeType
 import com.rarible.protocol.gateway.service.SmartProxyExchangeUtils
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
@@ -24,6 +25,12 @@ class NodeUsageMetricFilter(
         val blockchain = attributes[SmartProxyExchangeUtils.BLOCKCHAIN_ATTRIBUTE] as? String ?: "unknown"
         val app = exchange.attributes[SmartProxyExchangeUtils.APP_ATTRIBUTE] as? String ?: "unknown"
         val type = exchange.attributes[SmartProxyExchangeUtils.NODE_TYPE_ATTRIBUTE] as? NodeType ?: NodeType.UNKNOWN
-        nodeMetrics.onNodeProxyRequest(blockchain, app, type)
+        val provider = exchange.attributes[SmartProxyExchangeUtils.NODE_PROVIDER_ATTRIBUTE] as? String ?: Node.DEFAULT_NODE_PROVIDER
+        nodeMetrics.onNodeProxyRequest(
+            blockchain = blockchain,
+            app = app,
+            type = type,
+            provider = provider
+        )
     }
 }

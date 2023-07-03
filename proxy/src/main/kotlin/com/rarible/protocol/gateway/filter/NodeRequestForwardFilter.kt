@@ -29,6 +29,7 @@ class NodeRequestForwardFilter(
             exchange.attributes[SmartProxyExchangeUtils.APP_ATTRIBUTE] = appInfo.app
             exchange.attributes[SmartProxyExchangeUtils.BLOCKCHAIN_ATTRIBUTE] = appInfo.blockchain
             exchange.attributes[SmartProxyExchangeUtils.NODE_TYPE_ATTRIBUTE] = node.type
+            exchange.attributes[SmartProxyExchangeUtils.NODE_PROVIDER_ATTRIBUTE] = node.provider()
             exchange.attributes[GATEWAY_REQUEST_URL_ATTR] = endpoint
             return chain.filter(exchange)
         } else {
